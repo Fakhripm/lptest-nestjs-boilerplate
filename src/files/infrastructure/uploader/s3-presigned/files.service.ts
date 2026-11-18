@@ -24,14 +24,16 @@ export class FilesS3PresignedService {
   ) {
     this.s3 = new S3Client({
       region: configService.get('file.awsS3Region', { infer: true }),
-      credentials: {
+      credentials: (configService.get('file.accessKeyId', {
+          infer: true,
+        })) ? {
         accessKeyId: configService.getOrThrow('file.accessKeyId', {
           infer: true,
         }),
         secretAccessKey: configService.getOrThrow('file.secretAccessKey', {
           infer: true,
         }),
-      },
+      } : undefined,
     });
   }
 

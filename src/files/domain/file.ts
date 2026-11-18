@@ -32,10 +32,10 @@ export class FileType {
       ) {
         const s3 = new S3Client({
           region: (fileConfig() as FileConfig).awsS3Region ?? '',
-          credentials: {
+          credentials: ((fileConfig() as FileConfig).accessKeyId ?? '') ? {
             accessKeyId: (fileConfig() as FileConfig).accessKeyId ?? '',
             secretAccessKey: (fileConfig() as FileConfig).secretAccessKey ?? '',
-          },
+          } : undefined,
         });
 
         const command = new GetObjectCommand({
